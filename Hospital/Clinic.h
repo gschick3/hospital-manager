@@ -10,6 +10,7 @@ struct Patient {
 	string ssn;
 	bool critical;
 };
+
 struct Node {
 	Patient data;
 	Node* nextNode;

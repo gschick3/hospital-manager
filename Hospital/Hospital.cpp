@@ -13,14 +13,16 @@ int clinicMenu();
 
 int main() {
 	Clinic heart, lung, plastic;
-	Clinic* clinic;
+	Clinic* clinic = nullptr;
 	readFile(heart, lung, plastic, "patient.csv");
 
 	while (true) {
 		int choice;
+
 		system("cls");
 		choice = mainMenu();
 		system("cls");
+
 		switch (choice) {
 		case 1:
 			clinic = &heart;
@@ -28,23 +30,24 @@ int main() {
 			break;
 		case 2:
 			clinic = &lung;
-			cout << "Welcome to the Heart Clinic" << endl;
+			cout << "Welcome to the Lung Clinic" << endl;
 			break;
 		case 3:
 			clinic = &plastic;
-			cout << "Welcome to the Heart Clinic" << endl;
+			cout << "Welcome to Plastic Surgery" << endl;
 			break;
 		case 4:
 			heart.rescheduleAll();
 			lung.rescheduleAll();
 			plastic.rescheduleAll();
 
-			writeLog(heart, lung, plastic, "output.txt");
+			writeLog(heart, lung, plastic, "log.txt");
 			return 0;
 		default:
-			cout << "Not an option" << endl;
+			cout << "This is impossible" << endl;
 			break;
 		}
+
 		bool inClinic = true;
 		while (inClinic) {
 			choice = clinicMenu();
