@@ -1,0 +1,57 @@
+HEART CLINIC
+
+TIME    NAME                SSN            STATUS    ACTION
+12:23   Bernie Sanders      002            REG       added
+12:23   Sean Connery        007            REG       added
+12:23   Bill Clinton        008            REG       added
+12:23   Joe Biden           009            REG       added
+12:23   Donald Trump        014            REG       added
+12:23   Jennifer Lopez      017            REG       added
+12:23   Bill Gates          019            REG       added
+12:23   Bernie Sanders      002            REG       reschedule
+12:23   Sean Connery        007            REG       reschedule
+12:23   Bill Clinton        008            REG       reschedule
+12:23   Joe Biden           009            REG       reschedule
+12:23   Donald Trump        014            REG       reschedule
+12:23   Jennifer Lopez      017            REG       reschedule
+12:23   Bill Gates          019            REG       reschedule
+
+
+LUNG CLINIC
+
+TIME    NAME                SSN            STATUS    ACTION
+12:23   Barack Obama        001            REG       added
+12:23   Johnny Depp         004            REG       added
+12:23   Lady Gaga           005            REG       added
+12:23   Jackie Chan         010            REG       added
+12:23   Mariah Carey        011            REG       added
+12:23   Brad Pitt           012            REG       added
+12:23   Will Smith          013            REG       added
+12:23   Ariana Grande       016            REG       added
+12:23   Justin Bieber       018            REG       added
+12:23   Barack Obama        001            REG       reschedule
+12:23   Johnny Depp         004            REG       reschedule
+12:23   Lady Gaga           005            REG       reschedule
+12:23   Jackie Chan         010            REG       reschedule
+12:23   Mariah Carey        011            REG       reschedule
+12:23   Brad Pitt           012            REG       reschedule
+12:23   Will Smith          013            REG       reschedule
+12:23   Ariana Grande       016            REG       reschedule
+12:23   Justin Bieber       018            REG       reschedule
+
+
+PLASTIC SURGERY
+
+TIME    NAME                SSN            STATUS    ACTION
+12:23   Michelle Obama      003            REG       added
+12:23   Beyonce Knowles     006            REG       added
+12:23   Britney Spears      021            REG       added
+12:23   Michael Jackson     015            REG       added
+12:23   Drake               016            REG       added
+12:23   Rihanna             020            REG       added
+12:23   Michelle Obama      003            REG       reschedule
+12:23   Beyonce Knowles     006            REG       reschedule
+12:23   Britney Spears      021            REG       reschedule
+12:23   Michael Jackson     015            REG       reschedule
+12:23   Drake               016            REG       reschedule
+12:23   Rihanna             020            REG       reschedule
