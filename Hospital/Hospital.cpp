@@ -17,10 +17,8 @@ int main() {
 	readFile(heart, lung, plastic, "patient.csv");
 
 	while (true) {
-		int choice;
-
 		system("cls");
-		choice = mainMenu();
+		int choice = mainMenu();
 		system("cls");
 
 		switch (choice) {
@@ -50,12 +48,22 @@ int main() {
 
 		bool inClinic = true;
 		while (inClinic) {
-			choice = clinicMenu();
-			switch (choice) {
+			switch (clinicMenu()) {
 			case 1: {
 				Patient p;
-				cout << "Enter patient first and last name: ";
-				cin >> p.firstName >> p.lastName;
+				cout << "Enter patient name: ";
+
+				string name, ws;
+
+				// Allows patient to only have one name
+				getline(cin, ws); // get newline and other whitespace
+				getline(cin, name);
+				stringstream ss(name);
+				getline(ss, p.firstName, ' ');
+				getline(ss, p.lastName, ' '); // will be empty string if patient has no last name
+				while (getline(ss, name, ' ')) // otherwise, go through potential middle names and just get last name
+					p.lastName = name;
+
 				cout << "Enter patient SSN: ";
 				cin >> p.ssn;
 				p.critical = false;
@@ -64,8 +72,19 @@ int main() {
 			}
 			case 2: {
 				Patient p;
-				cout << "Enter patient first and last name: ";
-				cin >> p.firstName >> p.lastName;
+				cout << "Enter patient name: ";
+
+				string name, ws;
+
+				// Allows patient to only have one name
+				getline(cin, ws); // get newline and other whitespace
+				getline(cin, name);
+				stringstream ss(name);
+				getline(ss, p.firstName, ' ');
+				getline(ss, p.lastName, ' '); // will be empty string if patient has no last name
+				while (getline(ss, name, ' ')) // otherwise, go through potential middle names given and just take last name
+					p.lastName = name;
+
 				cout << "Enter patient SSN: ";
 				cin >> p.ssn;
 				p.critical = true;
@@ -99,64 +118,6 @@ int main() {
 	}
 }
 
-void readFile(Clinic& heart, Clinic& lung, Clinic& plastic, string filename) {
-	ifstream inFile(filename);
-
-	if (inFile.fail()) {
-		cout << "Failed to open file. " << endl;
-		return;
-	}
-
-	string line;
-	while (getline(inFile, line)) {
-		stringstream ss(line);
-		string clinic, firstName, lastName, ssn;
-
-		getline(ss, clinic, ','); // get clinic
-		getline(ss, firstName, ','); // get first name
-		getline(ss, lastName, ','); // get last name
-
-		getline(ss, ssn, ','); // get ssn as string
-		Patient p{ firstName, lastName, ssn, false };
-		if (clinic == "HC")
-			heart.addPatient(p);
-		else if (clinic == "LC")
-			lung.addPatient(p);
-		else if (clinic == "PS")
-			plastic.addPatient(p);
-		else if (clinic == "Q") return;
-		else
-			cout << "Clinic not found" << endl;
-	}
-	inFile.close();
-}
-
-void writeLog(Clinic& heart, Clinic& lung, Clinic& plastic, string filename) {
-	ofstream outFile(filename);
-	if (outFile.fail()) {
-		cout << "Failure writing log" << endl;
-		return;
-	}
-	outFile << "HEART CLINIC" << endl << endl;
-	outFile << left << setw(8) << "TIME" << setw(20) << "NAME" << setw(15) << "SSN" << setw(10) << "STATUS" << "ACTION" << endl;
-	for (vector<string> v : heart.getLog())
-		outFile << setw(8) << v.at(5) << setw(20) << left << v.at(0) + " " + v.at(1) << setw(15) << v.at(2) << setw(10) << v.at(3) << v.at(4) << endl;
-
-	outFile << endl << endl;
-	outFile << "LUNG CLINIC" << endl << endl;
-	outFile << left << setw(8) << "TIME" << setw(20) << "NAME" << setw(15) << "SSN" << setw(10) << "STATUS" << "ACTION" << endl;
-	for (vector<string> v : lung.getLog())
-		outFile << setw(8) << v.at(5) << setw(20) << left << v.at(0) + " " + v.at(1) << setw(15) << v.at(2) << setw(10) << v.at(3) << v.at(4) << endl;
-
-	outFile << endl << endl;
-	outFile << "PLASTIC SURGERY" << endl << endl;
-	outFile << left << setw(8) << "TIME" << setw(20) << "NAME" << setw(15) << "SSN" << setw(10) << "STATUS" << "ACTION" << endl;
-	for (vector<string> v : plastic.getLog())
-		outFile << setw(8) << v.at(5) << setw(20) << left << v.at(0) + " " + v.at(1) << setw(15) << v.at(2) << setw(10) << v.at(3) << v.at(4) << endl;
-
-	outFile.close();
-}
-
 int mainMenu() {
 	int choice = 0;
 	while (choice > 4 || choice < 1) {
@@ -187,3 +148,74 @@ int clinicMenu() {
 	}
 	return choice;
 }
+
+void readFile(Clinic& heart, Clinic& lung, Clinic& plastic, string filename) {
+	ifstream inFile(filename);
+
+	if (inFile.fail()) {
+		cout << "Failed to open file. " << endl;
+		return;
+	}
+
+	string line;
+	while (getline(inFile, line)) {
+		stringstream ss(line);
+		string clinic, firstName, lastName, ssn;
+
+		getline(ss, clinic, ','); // get clinic
+		getline(ss, firstName, ','); // get first name
+		getline(ss, lastName, ','); // get last name
+
+		getline(ss, ssn, ','); // get ssn as string
+		Patient p{ firstName, lastName, ssn, false }; // set up patient
+
+		// Place patient in the correct clinic
+		if (clinic == "HC")
+			heart.addPatient(p);
+		else if (clinic == "LC")
+			lung.addPatient(p);
+		else if (clinic == "PS")
+			plastic.addPatient(p);
+		else if (clinic == "Q") return;
+		else
+			cout << "Clinic not found" << endl;
+	}
+	inFile.close();
+}
+
+void writeLog(Clinic& heart, Clinic& lung, Clinic& plastic, string filename) {
+	ofstream outFile(filename);
+	if (outFile.fail()) {
+		cout << "Failure writing log" << endl;
+		return;
+	}
+
+	// Title
+	outFile << "HEART CLINIC" << endl << endl;
+	//TIME    NAME    SSN    STATUS    ACTION
+	outFile << left << setw(8) << "TIME" << setw(20) << "NAME" << setw(15) << "SSN" << setw(10) << "STATUS" << "ACTION" << endl;
+	// Iterate through log and print info
+	for (vector<string> v : heart.getLog())
+		outFile << setw(8) << v.at(5) << setw(20) << left << v.at(0) + " " + v.at(1) << setw(15) << v.at(2) << setw(10) << v.at(3) << v.at(4) << endl;
+
+	outFile << endl << endl;
+	// Title
+	outFile << "LUNG CLINIC" << endl << endl;
+	//TIME    NAME    SSN    STATUS    ACTION
+	outFile << left << setw(8) << "TIME" << setw(20) << "NAME" << setw(15) << "SSN" << setw(10) << "STATUS" << "ACTION" << endl;
+	// Iterate through log and print info
+	for (vector<string> v : lung.getLog())
+		outFile << setw(8) << v.at(5) << setw(20) << left << v.at(0) + " " + v.at(1) << setw(15) << v.at(2) << setw(10) << v.at(3) << v.at(4) << endl;
+
+	outFile << endl << endl;
+	// Title
+	outFile << "PLASTIC SURGERY" << endl << endl;
+	//TIME    NAME    SSN    STATUS    ACTION
+	outFile << left << setw(8) << "TIME" << setw(20) << "NAME" << setw(15) << "SSN" << setw(10) << "STATUS" << "ACTION" << endl;
+	// Iterate through log and print info
+	for (vector<string> v : plastic.getLog())
+		outFile << setw(8) << v.at(5) << setw(20) << left << v.at(0) + " " + v.at(1) << setw(15) << v.at(2) << setw(10) << v.at(3) << v.at(4) << endl;
+
+	outFile.close();
+}
+
