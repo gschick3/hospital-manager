@@ -28,22 +28,31 @@ public:
 
 	vector<vector<string>> getLog() { return log; }
 
-	// add patient to end of queue
+	// pre: Patient info given
+	// post: Patient added to end of queue
 	void addPatient(Patient);
 
-	// add patient to front of queue after other critical patients
+	// pre: Patient info given
+	// post: Patient added to beginning of queue
 	void addCriticalPatient(Patient);
 
-	// operate on patient at the front of the queue
+	// pre: none
+	// post: First patient removed from queue for operation
 	void operate();
 
-	// remove given patient from the queue
+	// pre: SSN of patient given
+	// post: Patient is removed from queue
 	void cancelPatient(string);
 
-	// list all patients in queue
+	// pre: none
+	// post: All patient info is printed to console
 	void listPatients();
 
+	// pre: Patient info and action is given
+	// post: Action is added to clinic log
 	void addLog(Patient, string);
 
+	// pre: none
+	// post: All remaining patients are logged as "reschedule"
 	void rescheduleAll();
 };

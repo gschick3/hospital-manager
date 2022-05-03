@@ -13,12 +13,12 @@ Clinic::~Clinic() {
 	currNode = head;
 	lastNode = head;
 	head = nullptr;
-	while (currNode->nextNode != nullptr) {
-		currNode = currNode->nextNode;
-		delete lastNode;
-		lastNode = currNode;
+	while (currNode->nextNode != nullptr) { // while not on the very last node
+		currNode = currNode->nextNode; // move to the next node
+		delete lastNode; // delete the last node
+		lastNode = currNode; // move the last node forward by one
 	}
-	delete currNode;
+	delete currNode; // delete the remaining node
 	lastNode = nullptr;
 	currNode = nullptr;
 }
@@ -29,14 +29,13 @@ void Clinic::addPatient(Patient p) {
 		return;
 	}
 
-	Node* newNode = new Node{ p, nullptr };
+	Node* newNode = new Node{ p, nullptr }; // create new patient node
 
-	if (head == nullptr) {
+	if (head == nullptr)
 		head = newNode;
-	}
 	else {
 		Node* currNode = head;
-		while (currNode->nextNode != nullptr)
+		while (currNode->nextNode != nullptr) // while not on the last node
 			currNode = currNode->nextNode;
 		currNode->nextNode = newNode;
 	}
@@ -54,17 +53,17 @@ void Clinic::addCriticalPatient(Patient p) {
 	if (head == nullptr) {
 		head = new Node{ p, nullptr };
 	}
-	else if (!head->data.critical) {
+	else if (!head->data.critical) { // if the first node is not a critical patient
 		head = new Node{ p, head };
 	}
 	else {
 		Node* lastNode = head;
 		Node* nextNode = head->nextNode;
-		while (nextNode != nullptr && nextNode->data.critical) {
+		while (nextNode != nullptr && nextNode->data.critical) { // while not on the last node or last critical node
 			lastNode = nextNode;
 			nextNode = nextNode->nextNode;
 		}
-		lastNode->nextNode = new Node{ p, nextNode };
+		lastNode->nextNode = new Node{ p, nextNode }; // nestle new node between last node and next node
 	}
 	cout << "Patient added" << endl;
 	addLog(p, "added");
@@ -76,11 +75,11 @@ void Clinic::operate() {
 		cout << "No patients to operate on" << endl;
 		return;
 	}
-	Node* currNode = head;
+	Node* currNode = head; // temporary storage for head node
 	cout << "Operated on: " << currNode->data.firstName << " " << currNode->data.lastName << endl;
 	addLog(currNode->data, "operated");
-	head = head->nextNode;
-	delete currNode;
+	head = head->nextNode; // move head node forward
+	delete currNode; // deallocate memory used for previous head
 	currNode = nullptr;
 	patientCount--;
 }
@@ -93,7 +92,7 @@ void Clinic::cancelPatient(string id) {
 		return;
 	}
 
-	if (head->data.ssn == id) {
+	if (head->data.ssn == id) { // if patient is at head
 		head = head->nextNode;
 		delete currNode;
 		currNode = nullptr;
@@ -101,7 +100,7 @@ void Clinic::cancelPatient(string id) {
 		return;
 	}
 
-	while (currNode->nextNode != nullptr) {
+	while (currNode->nextNode != nullptr) { // while not at last node
 		lastNode = currNode;
 		currNode = currNode->nextNode;
 		if (currNode->data.ssn == id) {
